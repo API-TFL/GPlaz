@@ -1,11 +1,11 @@
-# GPlaz
+GPlaz
 ===
 
 Just another source code repo for some Google APIs.
 
 ## Usage
 
-Please see the [example.php](example.php ) file for now. Will eventually add better docs later :]
+Please see the [examples.php](examples.php ) file for now. Will eventually add better docs later :]
 
 ## License
 

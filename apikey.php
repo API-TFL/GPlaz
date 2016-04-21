@@ -2,4 +2,4 @@
 
 // Place this somewhere safe on the server (not reachable to public)
 
-define('API_KEY', 'abcdefgh1230000000');
+define('API_KEY', 'AIzaSyDcWYB3AqsA3xrHjlquA01JFNe1kO8xQVk');
