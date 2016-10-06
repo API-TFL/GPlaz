@@ -1,6 +1,7 @@
 <?php
 
 require_once 'setters.php';
+require_once 'gmaps.php';
 
 final class Google extends setters
 {
@@ -45,5 +46,10 @@ final class Google extends setters
                     .'&key='.$this->apiKey;
 
         return $this->getData();
+    }
+
+    public static function Maps($key)
+    {
+        return new Map($key);
     }
 }
