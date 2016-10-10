@@ -2,7 +2,7 @@
 
 class MapType
 {
-    const ROADMAP   = 'roadmap ';
+    const ROADMAP   = 'roadmap';
     const SATELLITE = 'satellite';
     const HYBRID    = 'hybrid';
     const TERRAIN   = 'terrain';
@@ -35,6 +35,8 @@ class Map
     private $map_postion;
     private $html_attr;
     private $html_value;
+    private $info_window;
+    private $markers;
     private $render_without_script = FALSE;
 
     public function __construct($key)
@@ -55,7 +57,7 @@ class Map
 
     }
 
-    public function setAutoZoom($auto_zoom)
+    public function setAutoZoom($auto_zoom = TRUE)
     {
         $this->auto_zoom = (bool) $auto_zoom;
     }
@@ -99,9 +101,19 @@ class Map
         $this->html_value = $value;
     }
 
-    public function renderWithoutScript()
+    public function infoWindow(array $windows)
     {
-        $this->render_without_script = TRUE;
+        $this->info_window = $windows;
+    }
+
+    public function setMarkers(array $markers)
+    {
+        $this->markers = $markers;
+    }
+
+    public function renderWithoutScript($render_without_script = TRUE)
+    {
+        $this->render_without_script = (bool) $render_without_script;
     }
 
     public function renderScript()
@@ -133,6 +145,35 @@ class Map
         }
 
         $html .= '}; var map = new google.maps.Map(mapCanvas, mapOptions);';
+
+        if (!empty($this->info_window))
+        {
+            // make a foreach here of info_window
+            $html .= 'var infowindow = new google.maps.InfoWindow({
+              content: \'some cool text here<br/><strong>BAM!</strong>\'
+            });';
+        }
+
+        if (!empty($this->markers))
+        {
+            $html .= 'var marker = [];';
+
+            foreach ($this->markers as $key => $value)
+            {
+                $html .= 'marker['.((int) $key).'] = new google.maps.Marker({
+                position: {lat: '.$value['lat'].', lng: '.$value['lng'].'},
+                map: map,
+                title: \''.$value['title'].'\'
+                });';
+            }
+        }
+
+        if (!empty($this->info_window))
+        {
+            $html .= ' marker.addListener(\'click\', function() {
+            infowindow.open(map, marker);});';
+        }
+
         $html .= '} </script>';
 
 
