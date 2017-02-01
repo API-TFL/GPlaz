@@ -39,7 +39,7 @@ class setters extends request
 
     public function setAddress($address)
     {
-        $this->address = urlencode($address);
+        $this->address = urlencode(utf8_encode($address));
     }
 
     public function setLatLng($lat, $lng)
